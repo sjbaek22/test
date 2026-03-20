@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Lotto - 로또 번호 생성기</title>
+    <style>
+        :root {
+            --primary-bg: #f3f4f6;
+            --white: #ffffff;
+            --accent: #4f46e5;
+            --text-dark: #1f2937;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --color-1: #facc15;
+            --color-11: #3b82f6;
+            --color-21: #ef4444;
+            --color-31: #9ca3af;
+            --color-41: #10b981;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+        body { background-color: var(--primary-bg); display: flex; justify-content: center; align-items: center; min-height: 100vh; color: var(--text-dark); }
+        .container { background: var(--white); padding: 2.5rem; border-radius: 2rem; box-shadow: var(--shadow); text-align: center; max-width: 500px; width: 90%; }
+        h1 { margin-bottom: 0.5rem; font-size: 2rem; color: var(--accent); }
+        .balls-container { display: flex; justify-content: center; gap: 10px; margin: 2rem 0; min-height: 50px; }
+        .ball { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; text-shadow: 1px 1px 1px rgba(0,0,0,0.2); }
+        button { background-color: var(--accent); color: white; border: none; padding: 1rem 2rem; font-size: 1.1rem; font-weight: bold; border-radius: 1rem; cursor: pointer; }
+        button:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Vibe Lotto</h1>
+    <p>오늘의 행운번호</p>
+    <div class="balls-container" id="ballsBox"></div>
+    <button onclick="generateLotto()">번호 생성하기</button>
+</div>
+<script>
+    function getBallColor(num) {
+        if (num <= 10) return 'var(--color-1)';
+        if (num <= 20) return 'var(--color-11)';
+        if (num <= 30) return 'var(--color-21)';
+        if (num <= 40) return 'var(--color-31)';
+        return 'var(--color-41)';
+    }
+    function generateLotto() {
+        const numbers = [];
+        while (numbers.length < 6) {
+            const r = Math.floor(Math.random() * 45) + 1;
+            if (!numbers.includes(r)) numbers.push(r);
+        }
+        numbers.sort((a, b) => a - b);
+        const box = document.getElementById('ballsBox');
+        box.innerHTML = '';
+        numbers.forEach(num => {
+            const ball = document.createElement('div');
+            ball.className = 'ball';
+            ball.style.backgroundColor = getBallColor(num);
+            ball.innerText = num;
+            box.appendChild(ball);
+        });
+    }
+    window.onload = generateLotto;
+</script>
+</body>
+</html>
